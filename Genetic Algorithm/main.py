@@ -24,8 +24,7 @@ def evolute(population,nbEpoch=1000,mutation=4,elite=75,totalCrossover=False,mut
     nbElite=int(nbPopulation*elite/100)
     nbNonElite=nbPopulation-nbElite
 
-    for epoch in range(nbEpoch+1):
-        if epoch%(nbEpoch/10)==0: print(int(epoch/nbEpoch*100),"%")
+    for epoch in range(nbEpoch):
         #computing fitness
         fitness=computeFitness(population)
 
@@ -34,8 +33,12 @@ def evolute(population,nbEpoch=1000,mutation=4,elite=75,totalCrossover=False,mut
         fitness=fitness[trieur]
         population=population[trieur]
 
-        #if epoch%200==0:
-            #print(epoch,"\t", np.around(fitness[0]/nbPopulation,3),"\t", np.around(fitness[-1]/nbPopulation,3))
+        if epoch%(nbEpoch/10)==0:
+            pourcent=int(epoch/nbEpoch*100)
+            minFitness=int(np.round(fitness[0]))
+            maxFitness=int(np.round(fitness[-1]))
+            diff=maxFitness-minFitness
+            print("{}%\t {}-{} ({})".format(pourcent,minFitness,maxFitness,diff))
 
         population=population[:nbElite] #deleting everything except the elite oof the population
 
