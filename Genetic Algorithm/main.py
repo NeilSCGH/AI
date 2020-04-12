@@ -18,13 +18,13 @@ def computeFitness(pop):
     return np.sum(abs(pop-cible),axis=1)
 
 ##Training
-def evolute(population,nbEpoch=5000,mutation=0.6,elite=5,floatingCrossover=False,mutationElite=True,verbose=0):
+def evolute(population,nbEpoch=5000,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=0):
     print("ep {}, mut {}, el {}, cross {}, mutel {}\n".format(nbEpoch,mutation,elite,floatingCrossover,mutationElite))
     nbPopulation=len(pop)
 
     nbElite=int(nbPopulation*elite/100)
     nbNonElite=nbPopulation-nbElite
-
+    oldMin=0
     for epoch in range(nbEpoch):
         #computing fitness
         fitness=computeFitness(population)
@@ -36,10 +36,16 @@ def evolute(population,nbEpoch=5000,mutation=0.6,elite=5,floatingCrossover=False
 
         if verbose!=0 and epoch%(nbEpoch/100*verbose)==0:
             pourcent=int(epoch/nbEpoch*100)
-            minFitness=int(np.round(fitness[0]))
-            maxFitness=int(np.round(fitness[-1]))
-            diff=maxFitness-minFitness
-            print("{}%\t {}-{} ({})".format(pourcent,minFitness,maxFitness,diff))
+            minFitness=np.round(fitness[0],2)
+            maxFitness=np.round(fitness[-1],2)
+            diff=np.round(maxFitness-minFitness,2)
+
+            if epoch==0:
+                print("{}%\t {}-{}\t({}D)".format(pourcent,minFitness,maxFitness,diff))
+            else:
+                print("{}%\t {}-{}\t({}D) ({}A)".format(pourcent,minFitness,maxFitness,diff,np.round(oldMin-minFitness,2)))
+
+            oldMin=minFitness
 
         population=population[:nbElite] #deleting everything except the elite oof the population
 
@@ -70,7 +76,7 @@ def evolute(population,nbEpoch=5000,mutation=0.6,elite=5,floatingCrossover=False
     return p[0],p[-1]
 
 
-best,worst=evolute(pop,nbEpoch=5000,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=5)
+best,worst=evolute(pop,nbEpoch=50000,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=1)
 #print(best)
 print("\nfitness:",computeFitness(best)[0])
 print("fitness:",computeFitness(worst)[0])
