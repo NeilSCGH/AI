@@ -15,8 +15,9 @@ import math
 df_clean = pd.read_csv('data_cleaned.csv')
 
 #Loading the target variable Overall into a dataframe and name it y. Then, the features into a second dataframe and name it X. Plot a histogram of y
-y = df_clean.Overall
-X = df_clean.drop('Overall', axis=1, inplace=False)
+targetColumn='Overall'
+y = df_clean[targetColumn] #result column
+X = df_clean.drop(targetColumn, axis=1, inplace=False)
 #y.hist(bins=100)
 
 #Spliting the data set into a training set and a test set

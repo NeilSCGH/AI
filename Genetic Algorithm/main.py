@@ -76,7 +76,7 @@ def evolute(population,nbEpoch=5000,mutation=0.6,elite=5,floatingCrossover=True,
     return p[0],p[-1]
 
 
-best,worst=evolute(pop,nbEpoch=50000,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=1)
+best,worst=evolute(pop,nbEpoch=10000,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=5)
 #print(best)
 print("\nfitness:",computeFitness(best)[0])
 print("fitness:",computeFitness(worst)[0])
