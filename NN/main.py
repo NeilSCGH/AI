@@ -6,27 +6,7 @@ import sys
 sys.path.append('..\GA')
 from core import *
 
-############# SETTINGS #############
-#NN
-K=10
 
-#GA
-nbPop=200
-
-############# INITIALIZING #############
-#Getting X and Y
-X, Y, YUnique = getData("data.txt")
-
-N=len(X[0])
-J=len(Y[0])
-
-VSize=(N+1)*K
-WSize=(K+1)*J
-personSize= VSize+WSize
-
-pop=np.random.uniform(-1,1,size=(nbPop,personSize))
-
-############# LEARNING #############
 def extractWeights(person,VSize,WSize,N,K,J):
     person=person[0]
 
@@ -57,76 +37,38 @@ def computeFitness(pop):
 
     return np.asarray(result)
 
+############# SETTINGS #############
+#NN
+K=10
+
+#GA
+nbPop=200
+
+############# INITIALIZING #############
+#Getting X and Y
+X, Y, YUnique = getData("data.txt")
+
+N=len(X[0])
+J=len(Y[0])
+
+VSize=(N+1)*K
+WSize=(K+1)*J
+personSize= VSize+WSize
+
+pop=np.random.uniform(-1,1,size=(nbPop,personSize))
 
 
 ##Training
-best,worst=evolute(pop,computeFitness,nbEpoch=10,verbose=20)
+best,worst=evolute(pop,computeFitness,nbEpoch=100,verbose=10,mutation=30,elite=1)
 
 #print(best)
-print("\nBest fitness:",computeFitness(best)[0])
-print("Worst fitness:",computeFitness(worst)[0])
+print("\nBest fitness:",fitnessPerson(best))
+#Oprint("Worst fitness:",fitnessPerson(worst))
+print("")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-assert False
-for epoch in range(1,nbEpoch+1):
-    # Forward Propagation
-    Yp,F,Fb,Xb = fwp(X,V,W)
-
-    #Computing Error
-    E = error(Y,Yp,J)
-
-    #Printing Graph
-    if showGraph and epoch % graphEpoch==0:
-        xAxis.append(epoch)
-        EGraph.append(E)
-
-        plt.plot(xAxis,EGraph)
-        fig.canvas.draw()
-
-    #Printing error
-    if epoch % printEpoch==0:
-        print("epoch", epoch, ":", "%.3f" % E)
-
-
-    #BACK Propagation
-    V,W = bp(V,W,Y,Yp,F,Fb,Xb,J,K,N,av,aw)
-
-    #Change ac and aw
-    av *= aEvolution
-    aw *= aEvolution
-
-if showGraph: plt.show()
-
-print()
-print()
-
+V,W=extractWeights(best.reshape((1,63)),VSize,WSize,N,K,J)
+Yp,F,Fb,Xb = fwp(X,V,W)
 ##Printing results
 # print(Y)
 # print(np.apply_along_axis(arrondi, 0, Yp))

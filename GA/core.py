@@ -2,7 +2,7 @@ import numpy as np
 
 ##Training
 def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=0):
-    print("ep {}, mut {}, el {}, cross {}, mutel {}\n".format(nbEpoch,mutation,elite,floatingCrossover,mutationElite))
+    print("ep {}, mut {}, el {}, cross {}, mutel {}".format(nbEpoch,mutation,elite,floatingCrossover,mutationElite))
     nbPopulation,personSize=population.shape
 
     nbElite=int(nbPopulation*elite/100)
