@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 
+
 def arrondi(x):
     return (x>0.5).astype(int)
 
