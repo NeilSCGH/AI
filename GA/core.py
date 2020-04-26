@@ -1,7 +1,7 @@
 import numpy as np
 
 ##Training
-def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=0):
+def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=0,min=0,max=0):
     print("ep {}, mut {}, el {}, cross {}, mutel {}".format(nbEpoch,mutation,elite,floatingCrossover,mutationElite))
     nbPopulation,personSize=population.shape
 
@@ -52,8 +52,10 @@ def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCros
             muteur=np.concatenate((ones,muteur))
 
         population=population*muteur
+        if max!=0: population[population>=max]=max
+        if min!=0: population[population<=min]=min
         #population = population.astype(int)
 
     fitness=fitnessfunction(population)
     p=population[fitness.argsort()]
-    return p[0],p[-1]
+    return p,p[0],p[-1]

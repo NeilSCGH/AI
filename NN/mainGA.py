@@ -19,7 +19,7 @@ def extractWeights(person,VSize,WSize,N,K,J):
     return V,W
 
 def fitnessPerson(person):
-    person=person.reshape((1,63))
+    person=person.reshape((1,personSize))
     V,W=extractWeights(person,VSize,WSize,N,K,J)
 
     #forward propagation
@@ -39,7 +39,7 @@ def computeFitness(pop):
 
 ############# SETTINGS #############
 #NN
-K=10
+K=100
 
 #GA
 nbPop=200
@@ -67,7 +67,7 @@ print("\nBest fitness:",fitnessPerson(best))
 print("")
 
 
-V,W=extractWeights(best.reshape((1,63)),VSize,WSize,N,K,J)
+V,W=extractWeights(best.reshape((1,personSize)),VSize,WSize,N,K,J)
 Yp,F,Fb,Xb = fwp(X,V,W)
 ##Printing results
 # print(Y)
