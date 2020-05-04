@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+import sys
+import math
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -8,16 +10,10 @@ from sklearn.metrics import mean_squared_error
 from sklearn.metrics import mean_absolute_error
 from sklearn.metrics import r2_score
 from lib.tools import *
-import math
-
 
 class program():
 	def __init__(self,args):
 	    self.tool = tools(args)
-
-		#the column to predict
-	    #self.targetColumn = "Overall"
-	    #self.fileName = "data_cleaned.csv"
 	    self.setup(args)
 
 	def setup(self,args):
@@ -33,12 +29,19 @@ class program():
 	    else:
 	      self.stop("Error, -o is missing !")
 
+	    if self.tool.argExist("-c"):#do we have to clear the data before use ?
+	      print("We clean the data")
+	      #cleanData()
+
 	def run(self):
 		##Getting the cleaned data
 		try:
 			df_clean = pd.read_csv(self.fileName)
 		except:
 			self.stop("Error, file not found !")
+
+		if self.targetColumn not in df_clean:
+			self.stop("Error, column not found !")
 
 		y = df_clean[self.targetColumn] #result column
 		X = df_clean.drop(self.targetColumn, axis=1, inplace=False)
@@ -76,3 +79,8 @@ class program():
 	def stop(self,msg):
 		print(msg)
 		exit(0)
+
+
+if __name__ == '__main__':
+	prog=program(sys.argv)
+	prog.run()
