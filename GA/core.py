@@ -58,4 +58,4 @@ def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCros
 
     fitness=fitnessfunction(population)
     p=population[fitness.argsort()]
-    return p,p[0],p[-1]
+    return p[0],p[-1]
