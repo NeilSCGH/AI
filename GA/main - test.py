@@ -5,12 +5,10 @@ from core import *
 min=0
 max=10
 personSize=2
-nbPop=500
+nbPop=200
 nbEpoch=500
 
 ##Fitness part
-cible=np.random.uniform(min,max,size=(1,personSize))#generating random target
-
 def computeFitness(pop):
     sum=[]
     for p in pop:
@@ -19,16 +17,17 @@ def computeFitness(pop):
     return np.array(sum)
 
 def fitness(p):
-    r=(p[0] - 5) + (p[1] - 6)*p[0]
-    return abs(r)
+    r1=2*p[0] -2 -p[1]
+    r2=-p[0] +3 -p[1]
+    return abs(r1)+abs(r2)
 
 
 ##Initializing random population
 pop=np.random.uniform(min,max,size=(nbPop,personSize))
 
 ##Training
-best,worst=evolute(pop,computeFitness,nbEpoch=nbEpoch,verbose=20)
+best, _ = evolute(pop,computeFitness,nbEpoch=nbEpoch,verbose=20)
 
 #print(best)
-print("\nBest :", best)
 print("\nBest fitness:", fitness(best))
+print("Best :", best)

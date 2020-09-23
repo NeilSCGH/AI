@@ -2,8 +2,9 @@ import numpy as np
 
 ##Training
 def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCrossover=True,mutationElite=False,verbose=0,min=0,max=0):
-    print("ep {}, mut {}, el {}, cross {}, mutel {}".format(nbEpoch,mutation,elite,floatingCrossover,mutationElite))
     nbPopulation,personSize=population.shape
+
+    print("pop {}, ep {}, mut {}, el {}, cross {}, mutel {}\n".format(nbPopulation,nbEpoch,mutation,elite,floatingCrossover,mutationElite))
 
     nbElite=int(nbPopulation*elite/100)
     nbNonElite=nbPopulation-nbElite
@@ -58,4 +59,4 @@ def evolute(population,fitnessfunction,nbEpoch,mutation=0.6,elite=5,floatingCros
 
     fitness=fitnessfunction(population)
     p=population[fitness.argsort()]
-    return p[0],p[-1]
+    return p
